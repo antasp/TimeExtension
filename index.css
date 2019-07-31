@@ -1,0 +1,51 @@
+.container
+{
+    width: 70%;
+    margin: 10% auto;
+    max-width: 840px;
+}
+
+.container .card
+{
+    width:100%;
+    border-radius: 8px;
+    border: 1px solid #dadce0;
+    margin-top: 24px;
+    min-height: 400px;
+    padding: 40px;
+}
+
+.progressView
+{
+    text-align: center;
+}
+.progressView ul
+{
+    list-style: none;
+}
+
+.progressView ul li
+{
+    display: inline-block;
+    border: 2px solid #1371c3;
+    color: #1371c3;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 22px;
+    font-size: 20px;
+    margin-left: 20%;
+}
+
+.progressView ul li:first-child
+{
+    margin-left:0;
+}
+
+.progressView ul li.selected
+{
+    background-color: #1371c3;
+    color: white;
+    border-color: #1371c3;
+}

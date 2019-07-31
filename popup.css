@@ -1,0 +1,27 @@
+button {
+    height: 30px;
+    width: 30px;
+    outline: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+    padding-bottom: 10px;
+}
+
+ul li:last-child
+{
+    padding-bottom: 0;
+}
+
+ul li button {
+    height: 100%;
+    width: 100%;
+}
