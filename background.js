@@ -1,5 +1,8 @@
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.local.set({ 'timeKeyData': [[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5],[1,2,3,4,5]] }, function () {
+    let date = new Date();
+    chrome.storage.local.set({
+        'selectedYear': date.getFullYear(), 'selectedMonth': date.getMonth() + 1, 'timeKeyData': {}
+    }, function () {
         console.log("The extension is installed");
     });
 

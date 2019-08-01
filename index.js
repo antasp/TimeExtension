@@ -1,129 +1,157 @@
 document.addEventListener('DOMContentLoaded', function () {
+    chrome.storage.local.get(['timeKeyData', 'selectedYear', 'selectedMonth'], function (data) {
 
-    chrome.storage.local.get(['timeKeyData'], function (data) {
+        let container = document.getElementById('container');
 
-        //data = [["Date", "Total Time", "A3204", "A3224", "P100"], ["2019-04-01", 5.5, 3, 4, 5], ["2019-04-02", 8.1, 3, 4, 5], ["2019-04-03", 7.4, 3, 4, 5], ["2019-04-04", 9.0, 3, 4, 5]];
-        console.log(data);
-        let table = document.createElement("table");
-        table.setAttribute("class", "timeTable");
+        let years = [];
+        for (let i = 2018; i < 2018 + 10; i++) {
+            years.push(i);
+        }
+        let yearSelect = createSelect("year", years);
+        yearSelect.value = data['selectedYear'];
+        yearSelect.addEventListener('change', function (e) {
 
-        let projNr = ["A3204", "A3224", "P100"];
-        data = [0,0,0]
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(createTable(yearSelect.value, data['selectedMonth'], data['timeKeyData']));
 
-        table.appendChild(createHeader(projNr));
-        for (let day = 1; day <= 31; day++) {
-            table.appendChild(createRow("2019-08-" + day, Math.random() * 3 + 6, data))
+            chrome.storage.local.set({ 'selectedYear': yearSelect.value }, function (data) {
+                console.log('year select change saved.')
+            });
+        });
+        container.appendChild(yearSelect);
+
+        let tableWrapper = document.createElement('div');
+        tableWrapper.setAttribute('id', 'tableWrapper');
+        tableWrapper.appendChild(createTable(data['selectedYear'], data['selectedMonth'], data['timeKeyData']));
+
+        let monthSelect = createSelect("month", [
+            ["January", 1],
+            ["February", 2],
+            ["March", 3],
+            ["April", 4],
+            ["May", 5],
+            ["June", 6],
+            ["July", 7],
+            ["August", 8],
+            ["September", 9],
+            ["October", 10],
+            ["November", 11],
+            ["December", 12]
+        ]);
+        monthSelect.value = data['selectedMonth'];
+        monthSelect.addEventListener('change', function (e) {
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(createTable(data['selectedYear'], monthSelect.value, data['timeKeyData']));
+
+            chrome.storage.local.set({ 'selectedMonth': monthSelect.value }, function (data) {
+                console.log('month select change saved.');
+            });
+        });
+        container.appendChild(monthSelect);
+        container.appendChild(tableWrapper);
+
+
+
+
+
+
+        function createTable(year, month, data) {
+            data = data || {}
+            let table = document.createElement("table");
+            table.setAttribute("class", "timeTable");
+            table.setAttribute('id', 'timeTable');
+
+            let lastDay = daysInMonth(year, month);
+
+            let projNr = ["A3204", "A3224", "P100", "+"];
+            table.appendChild(createHeader(projNr));
+
+            for (let day = 1; day <= lastDay; day++) {
+                let date = new Date(year + "-" + month + "-" + day).yyyymmdd();
+                let dateData = data[date] || { 'totalTime': 0, 'projTime': new Array(projNr.length) };
+                table.appendChild(createRow(date, dateData['totalTime'], dateData['projTime']));
+            }
+
+            return table;
         }
 
-        // for (let r = 0; r < data.length; r++) {
-        //     let row = document.createElement("tr");
+        function createSelect(name, options) {
+            let select = document.createElement("select");
+            select.setAttribute("name", name);
+            select.setAttribute("id", name);
 
-        //     for (let c = 0; c < data[r].length; c++) {
+            for (let i = 0; i < options.length; i++) {
+                if (!Array.isArray(options[i])) {
+                    select.appendChild(createOption(options[i], options[i]));
+                }
+                else {
+                    select.appendChild(createOption(options[i][0], options[i][1]));
+                }
+            }
 
-        //         if (r == 0) {
-        //             let header = document.createElement("th");
-        //             if (c < 2) {
-        //                 header.innerText = data[r][c];
-        //             }
-        //             else {
-        //                 let div = document.createElement("div");
+            return select;
+        }
 
-        //                 let span = document.createElement("span");
-        //                 span.innerText = data[r][c];
-        //                 span.setAttribute("contenteditable", "true");
-        //                 div.appendChild(span);
+        function createOption(name, value) {
+            let option = document.createElement("option");
+            option.setAttribute("value", value);
+            option.innerText = name;
 
-        //                 let dropdown = document.createElement("select");
-        //                 dropdown.style.cssFloat = "right";
-        //                 dropdown.appendChild(createOption("h", 0));
-        //                 dropdown.appendChild(createOption("%", 1));
-        //                 div.appendChild(dropdown);
+            return option;
+        }
 
-        //                 header.appendChild(div);
-        //             }
+        function createHeader(columns) {
+            let header = document.createElement("tr");
+            header.appendChild(createCell("Date", false, "th"));
+            header.appendChild(createCell("Total Time", false, "th"));
 
-        //             row.appendChild(header);
-        //         }
-        //         else {
+            for (let i = 0; i < columns.length; i++) {
+                header.appendChild(createCell(columns[i], true, "th"));
+            }
 
-        //             let col = document.createElement("td");
-        //             col.innerText = data[r][c];
+            return header;
+        }
 
-        //             if (c >= 2)
-        //             {
-        //                 col.setAttribute("contenteditable", "true");
-        //             }
+        function createRow(date_str, time, columns) {
+            let date = new Date(date_str);
+            let row = document.createElement("tr");
+            row.appendChild(createCell(date.yyyymmdd(), false));
+            row.appendChild(createCell(time.hoursToHHMM(), false));
 
-        //             row.appendChild(col);
-        //         }
+            for (let i = 0; i < columns.length; i++) {
+                let cell = createCell(columns[i] || "", true);
+                cell.addEventListener('input', function (e) {
+                    console.log(data);
+                    if (!data['timeKeyData'].hasOwnProperty(date_str)) {
+                        data['timeKeyData'][date_str] = { 'totalTime': 0, 'projTime': [] }
+                    }
+                    data['timeKeyData'][date_str]['projTime'][i] = cell.innerText;
+                    chrome.storage.local.set({ 'timeKeyData': data['timeKeyData'] }, function (e) {
+                        console.log(e);
+                    })
+                });
+                row.appendChild(cell);
+            }
 
-        //     }
+            if (date.weekend()) {
+                row.setAttribute("class", "weekend");
+            }
 
-        //     table.appendChild(row);
-        // }
+            return row;
+        }
+
+        function createCell(data, editable, type = "td") {
+            let cell = document.createElement(type);
+            cell.innerText = data;
+            cell.setAttribute("contenteditable", editable);
+            return cell;
+        }
 
 
-        document.getElementById('container').appendChild(table);
 
     });
 
 });
-
-function createSelect(name, options) {
-    let select = document.createElement("select");
-    select.setAttribute("name", name);
-    select.setAttribute("id", name);
-
-    for (let i = 0; i < options.length; i++) {
-        select.appendChild(createOption(options[i].name, options[i].value));
-    }
-
-    return select;
-}
-
-function createOption(name, value) {
-    let option = document.createElement("option");
-    option.setAttribute("value", value);
-    option.innerText = name;
-
-    return option;
-}
-
-function createHeader(columns) {
-    let header = document.createElement("tr");
-    header.appendChild(createCell("Date", false, "th"));
-    header.appendChild(createCell("Total Time", false, "th"));
-
-    for (let i = 0; i < columns.length; i++) {
-        header.appendChild(createCell(columns[i], true, "th"));
-    }
-
-    return header;
-}
-
-function createRow(date_str, time, columns) {
-    let date = new Date(date_str);
-    let row = document.createElement("tr");
-    row.appendChild(createCell(date.yyyymmdd(), false));
-    row.appendChild(createCell(time.hoursToHHMM(), false));
-
-    for (let i = 0; i < columns.length; i++) {
-        row.appendChild(createCell(columns[i], true));
-    }
-
-    if (date.weekend()) {
-        row.setAttribute("class", "weekend");
-    }
-
-    return row;
-}
-
-function createCell(data, editable, type = "td") {
-    let cell = document.createElement(type);
-    cell.innerText = data;
-    cell.setAttribute("contenteditable", editable);
-    return cell;
-}
 
 Date.prototype.yyyymmdd = function () {
     var mm = this.getMonth() + 1; // getMonth() is zero-based
@@ -146,4 +174,8 @@ Number.prototype.hoursToHHMM = function () {
     var minutes = (num - rhours) * 60;
     var rminutes = Math.round(minutes);
     return [rhours, rminutes].join(":");
+}
+
+function daysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
 }
