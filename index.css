@@ -1,11 +1,11 @@
-.container
+#container
 {
     width: 70%;
     margin: 10% auto;
-    max-width: 840px;
+    /*max-width: 840px;*/
 }
 
-.container .card
+#container .card
 {
     width:100%;
     border-radius: 8px;
@@ -48,4 +48,46 @@
     background-color: #1371c3;
     color: white;
     border-color: #1371c3;
+}
+
+
+.timeTable
+{
+    border: 1px solid #dadce0;
+    border-collapse: collapse;
+}
+
+
+.timeTable td, .timeTable th{
+    min-width: 200px;
+    text-align: left;
+    padding: 10px;
+}
+
+.timeTable th{
+    background: #1371c3;
+    border: 1px solid #1371c3;
+    color: white;
+}
+
+.timeTable td{
+    
+    border: 1px solid #dadce0;
+
+}
+
+.timeTable td:nth-child(2), .timeTable td:first-child
+{
+    background: #eaecf1;
+}
+
+.timeTable th:nth-child(2), .timeTable th:first-child
+{
+    background: #69738a;
+    border: 1px solid #69738a;
+}
+
+.timeTable tr.weekend td
+{
+    color: #da0000;
 }
