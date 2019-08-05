@@ -103,3 +103,59 @@
 {
     color: #da0000;
 }
+
+.timeTable tr.today td
+{
+    font-weight: bold;
+}
+
+.nopadding
+{
+    padding: 0 !important;
+}
+
+.timeTable td input, .timeTable th input
+{
+    padding: 10px;
+    width: 180px;
+    height: 100%;
+    border:none;
+    background: none;
+}
+
+#navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    border-bottom: 1px solid #dadce0;
+    background: white;
+}
+
+#navbar *
+{
+    margin: 10px;
+}
+
+button{
+    background: none;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    
+    color: #1a73e8;
+    font: 500 .875rem/1.125rem 'Google Sans',Roboto,Arial,sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 36px;
+    padding: 0 8px;
+    border-radius: 2px;
+}
+
+button:hover
+{
+    background: #f6fafe;
+}
