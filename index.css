@@ -1,13 +1,11 @@
-#container
-{
+#container {
     width: 70%;
     margin: 10% auto;
     /*max-width: 840px;*/
 }
 
-#container .card
-{
-    width:100%;
+#container .card {
+    width: 100%;
     border-radius: 8px;
     border: 1px solid #dadce0;
     margin-top: 24px;
@@ -15,17 +13,15 @@
     padding: 40px;
 }
 
-.progressView
-{
+.progressView {
     text-align: center;
 }
-.progressView ul
-{
+
+.progressView ul {
     list-style: none;
 }
 
-.progressView ul li
-{
+.progressView ul li {
     display: inline-block;
     border: 2px solid #1371c3;
     color: #1371c3;
@@ -38,57 +34,47 @@
     margin-left: 20%;
 }
 
-.progressView ul li:first-child
-{
-    margin-left:0;
+.progressView ul li:first-child {
+    margin-left: 0;
 }
 
-.progressView ul li.selected
-{
+.progressView ul li.selected {
     background-color: #1371c3;
     color: white;
     border-color: #1371c3;
 }
 
-
-.timeTable
-{
+.timeTable {
     border: 1px solid #dadce0;
     border-collapse: collapse;
 }
 
-
-.timeTable td, .timeTable th{
+.timeTable td, .timeTable th {
     text-align: left;
     padding: 10px;
 }
 
-.timeTable th{
+.timeTable th {
     min-width: 200px;
     background: #1371c3;
     border: 1px solid #1371c3;
     color: white;
 }
 
-.timeTable td{
-
+.timeTable td {
     border: 1px solid #dadce0;
-
 }
 
-.timeTable td:nth-child(2), .timeTable td:first-child
-{
+.timeTable td:nth-child(2), .timeTable td:first-child {
     background: #eaecf1;
 }
 
-.timeTable th:nth-child(2), .timeTable th:first-child
-{
+.timeTable th:nth-child(2), .timeTable th:first-child {
     background: #69738a;
     border: 1px solid #69738a;
 }
 
-.timeTable th:last-child
-{
+.timeTable th:last-child {
     background: #92bee4;
     border: 1px solid #1371c4;
     color: #fffefe;
@@ -99,27 +85,23 @@
     padding: 0 8px;
 }
 
-.timeTable tr.weekend td
-{
+.timeTable tr.weekend td {
     color: #da0000;
 }
 
-.timeTable tr.today td
-{
+.timeTable tr.today td {
     font-weight: bold;
 }
 
-.nopadding
-{
+.nopadding {
     padding: 0 !important;
 }
 
-.timeTable td input, .timeTable th input
-{
+.timeTable td input, .timeTable th input {
     padding: 10px;
     width: 180px;
     height: 100%;
-    border:none;
+    border: none;
     background: none;
 }
 
@@ -132,12 +114,11 @@
     background: white;
 }
 
-#navbar *
-{
+#navbar * {
     margin: 10px;
 }
 
-button{
+button {
     background: none;
     border: none;
     color: white;
@@ -145,9 +126,8 @@ button{
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
-    
     color: #1a73e8;
-    font: 500 .875rem/1.125rem 'Google Sans',Roboto,Arial,sans-serif;
+    font: 500 .875rem/1.125rem 'Google Sans', Roboto, Arial, sans-serif;
     font-weight: 500;
     font-size: 14px;
     line-height: 36px;
@@ -155,7 +135,45 @@ button{
     border-radius: 2px;
 }
 
-button:hover
-{
+button:hover {
     background: #f6fafe;
+}
+
+.select-css {
+    color: #1a73e8;
+    padding: .6em 2em .5em .8em;
+    box-sizing: border-box;
+    border: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: .65em auto, 100%;
+    font: 500 .875rem/1.125rem 'Google Sans', Roboto, Arial, sans-serif;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.select-css::-ms-expand {
+    display: none;
+}
+
+.select-css:hover {
+    background-color: #f6fafe;
+}
+
+.select-css:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+}
+
+.select-css option {
+    font-weight: normal;
+    background-color: none;
 }

@@ -8,18 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
         let yearSelect = createYearSelect(data['selectedYear'], function (e) {
 
             tableWrapper.innerHTML = '';
-            tableWrapper.appendChild(createTable(yearSelect.value, data['selectedMonth'], data['timeKeyData']));
+            tableWrapper.appendChild(createTable(this.value, data['selectedMonth'], data['timeKeyData']));
 
-            chrome.storage.local.set({ 'selectedYear': yearSelect.value }, function (data) {
+            chrome.storage.local.set({ 'selectedYear': this.value }, function (data) {
                 console.log('year select change saved.')
             });
         });
 
         let monthSelect = createMonthSelect(data['selectedMonth'], function (e) {
             tableWrapper.innerHTML = '';
-            tableWrapper.appendChild(createTable(data['selectedYear'], monthSelect.value, data['timeKeyData']));
+            tableWrapper.appendChild(createTable(data['selectedYear'], this.value, data['timeKeyData']));
 
-            chrome.storage.local.set({ 'selectedMonth': monthSelect.value }, function (data) {
+            chrome.storage.local.set({ 'selectedMonth': this.value }, function (data) {
                 console.log('month select change saved.');
             });
         });
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 tableWrapper.innerHTML = '';
                 tableWrapper.appendChild(createTable(yearSelect.value, monthSelect.value, data['timeKeyData']));
 
-                chrome.storage.local.set({'timeKeyData' : data['timeKeyData']}, function(e){
+                chrome.storage.local.set({ 'timeKeyData': data['timeKeyData'] }, function (e) {
                     console.log('imported data');
                 });
 
@@ -93,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function createHeader(columns) {
             let header = document.createElement("tr");
-            header.appendChild(createCell("Date", false, "th"));
-            header.appendChild(createCell("Total Time", false, "th"));
+            header.appendChild(createCell("Date", "th"));
+            header.appendChild(createCell("Total Time", "th"));
 
             for (let i = 0; i < columns.length; i++) {
-                let cell = createCell("", false, "th");
+                let cell = createCell("", "th");
                 let input = document.createElement('input');
                 input.setAttribute('type', 'text');
                 input.value = columns[i] || "";
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
         function createRow(date_str, projNr, time, columns) {
             let date = new Date(date_str);
             let row = document.createElement("tr");
-            row.appendChild(createCell(date.yyyymmdd(), false));
-            row.appendChild(createCell(time.hoursToHHMM(), false));
+            row.appendChild(createCell(date.yyyymmdd()));
+            row.appendChild(createCell(time.hoursToHHMM()));
 
             if (date.weekend()) {
                 row.addClass('weekend')
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             for (let i = 0; i < projNr.length; i++) {
-                let cell = createCell("", false);
+                let cell = createCell("");
 
                 let input = document.createElement('input');
                 input.setAttribute('type', 'number');
@@ -150,12 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return row;
         }
 
-        function createCell(data, editable, type = "td") {
-            let cell = document.createElement(type);
-            cell.innerText = data;
-            cell.setAttribute("contenteditable", editable);
-            return cell;
-        }
+
     });
 
 });
@@ -243,10 +238,17 @@ function createMonthSelect(selectedMonth, callback) {
     return monthSelect;
 }
 
+function createCell(data, type = "td") {
+    let cell = document.createElement(type);
+    cell.innerText = data;
+    return cell;
+}
+
 function createSelect(name, options) {
     let select = document.createElement("select");
     select.setAttribute("name", name);
     select.setAttribute("id", name);
+    select.addClass('select-css');
 
     for (let i = 0; i < options.length; i++) {
         if (!Array.isArray(options[i])) {

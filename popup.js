@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         console.log('ImportButton clicked');
+        chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
 
         chrome.runtime.sendMessage({ id: "changeColor" });
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         console.log('OptionsButton clicked');
+        chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
 
 
     }, false);
