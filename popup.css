@@ -32,7 +32,7 @@ ul li button, ul li a.button {
     width: 30%;
 }
 
-button, a.button {
+button, a.button, input[type="button"] {
     background: none;
     border: none;
     text-decoration: none;
@@ -42,14 +42,21 @@ button, a.button {
     font: 500 .875rem/1.125rem 'Google Sans', Roboto, Arial, sans-serif;
     font-weight: 500;
     font-size: 14px;
-    line-height: 36px;
+    line-height: 38px;
     padding: 0 8px;
     border-radius: 2px;
     box-sizing: border-box;
 }
 
-button:hover, a.button:hover {
+button:hover, a.button:hover, input[type="button"]:hover {
     background: #f6fafe;
+}
+
+span.icon {
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    margin: 11px 0;
 }
 
 .select-css {
